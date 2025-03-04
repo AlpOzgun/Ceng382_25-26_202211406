@@ -1,0 +1,463 @@
+html {
+  height: 100%;
+  }
+
+  @font-face {
+    src: url('./PressStart2P-Regular.ttf');
+    font-family: "Press Start 2P";
+  }
+
+  body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: "Press Start 2P", Arial;
+    overflow: hidden;
+    z-index: inherit;
+    background: url(background_kyogre.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  
+  .front_layer {
+    height: 100%;
+  }
+  
+  .layer_top {
+    background-image: url(front_layer.png);
+    width: 100%;
+    height: 50%;
+    z-index: 1;
+    top: 0%;
+    background-size: contain;
+  }
+  
+  .layer_bottom {
+    background-image: url(front_layer.png);
+    width: 100%;
+    height: 50%;
+    z-index: 1;
+    bottom: 0%;
+    background-size: contain;
+  }
+  
+
+  
+  @keyframes go_up_layer_top {
+    0% {
+        transform: translate(0,0);
+      }
+      100% {
+        transform: translate(0,-100%);
+      }
+  }
+  @keyframes go_down_layer_top {
+    0% {
+      transform: translate(0,-100%);
+    }
+    100% {
+      transform: translate(0,0);
+    }
+  }
+  
+
+  @keyframes go_down_layer_bottom {
+    0% {
+      transform: translateY(0%);
+    }
+    100% {
+      transform: translateY(100%);
+    }
+  }
+  @keyframes go_up_layer_bottom {
+    0% {
+      transform: translateY(100%);
+    }
+    100% {
+      transform: translateY(0%);
+    }
+  }
+
+  #middle_button:checked ~ .layer_top {
+    animation: go_up_layer_top 0.5s forwards;
+  }
+  
+  #middle_button:not(:checked) ~ .layer_top {
+    animation: go_down_layer_top 0.5s forwards;
+  }
+
+  #middle_button:checked ~ .layer_bottom {
+    animation: go_down_layer_bottom 0.5s forwards;
+  }
+  
+  #middle_button:not(:checked) ~ .layer_bottom {
+    animation: go_up_layer_bottom 0.5s forwards;
+  }
+
+
+
+/* Prompt : hide the checkbox that appears at the top left */
+  .middle_button_checkbox {
+    display: none;
+  }
+
+
+  .middle_button_inner_circle {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+    background: #fff;
+    border: 15px , solid , black;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*Prompt : why does my mouse not change when i hover over a button css*/
+    cursor: pointer;
+    z-index: 3;
+  }
+
+  .middle_button_inner_circle::before {
+    border-radius: 50% 50% 50% 50%;
+    width: 60px;
+    height: 60px;
+    content: ''; 
+    background-color: transparent;
+    border: 9px solid black;
+  }
+
+@keyframes middle_button_change_scale{
+    0%{
+        transform: translate(-50%, -50%) scale(1.0);
+    }
+    25%{
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+    50%{
+        transform: translate(-50%, -50%) scale(1.0);
+    }
+    75%{
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+    100%{
+        transform: translate(-50%, -50%) scale(1.0);
+    }
+}
+@keyframes middle_button_change_color{
+    0%{
+        transform: translate(calc(-50% + 39px), calc(-50% + 40px));
+        border-color: black; 
+    }
+    25%{
+        transform: translate(calc(-50% + 39px), calc(-50% + 40px));
+        border-color: red; 
+    }
+    50%{
+        transform: translate(calc(-50% + 39px), calc(-50% + 40px));
+        border-color: black; 
+    }
+    75%{
+        transform: translate(calc(-50% + 39px), calc(-50% + 40px));
+        border-color: red; 
+    }
+    100%{
+        transform: translate(calc(-50% + 39px), calc(-50% + 40px));
+        border-color: black; 
+    }
+}
+
+@keyframes middle_button_go_up{
+  0%{
+    transform: translate(-50%, -50%);
+  }
+  100%{
+    transform: translate(-50%, calc(-100% - 150px)); 
+  }
+}
+
+
+
+.middle_button_inner_circle:not(:hover):not(:checked)::before {
+    animation: middle_button_change_color 4.5s ease infinite;
+}
+
+
+#middle_button:checked ~ .middle_button_inner_circle {
+    animation: middle_button_go_up 0.5s ease;
+    transform: translate(-50%, calc(-100% - 150px)); 
+}
+
+#middle_button:not(:checked):not(:hover) ~ .middle_button_inner_circle {
+  animation: middle_button_change_scale 4.5s ease infinite;
+  transform: translate(-50%, -50%); 
+}
+#middle_button:not(:checked):hover ~ .middle_button_inner_circle {
+  animation: none;
+  transform: translate(-50%, -50%) scale(1.1); 
+}
+
+
+#middle_button:checked ~ .middle_button_inner_circle::before {
+    animation: none;
+  }
+
+  
+.middle_button_inner_circle:hover::before {
+    border-color: red; 
+  }
+  
+.middle_button_inner_circle:hover {
+    animation: none;
+    transform: translate(-50%, -50%) scale(1.1); 
+  }
+
+
+  /*Prompt : How can i make a form that appears from a line and grows vertically */
+  .login_form {
+    /*Prompt : make this form go to the center of the page*/
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    transform: translate(-50%, -50%); 
+    width: 350px;
+    height: 0px;
+    background: black;
+    padding: 20px;
+    border-radius: 15px;
+    border: 9px solid black;
+    overflow: hidden;
+    z-index: 2;
+  }
+  
+  
+  .login_form input {
+    width: calc(100% - 40px);
+    padding: 10px;
+    margin: 10px;
+    border: 3px solid;
+    border-radius: 15px;
+    background: rgb(172, 205, 210);
+    font-family: "Press Start 2P", Arial;
+  }
+  
+  .login_form button {
+    border-radius: 50% 50% 50% 50%;
+    width: 150px;
+    height: 150px;
+    background-image: url(image_starters.png);
+    left: calc(50% - 75px);
+    border: 6px solid;
+    cursor: pointer;
+}
+
+.login_form button:active {
+    transform: scale(0.95);
+}
+
+/* Prompt : how can i make a button subclass*/ 
+.login_form button .pokeball {
+    border-radius: 50% 50% 50% 50%;
+    width: 100px;
+    height: 100px;
+    left: 5px;
+    top: 0px;
+    background: linear-gradient(to bottom, red 50%, white 50%);
+    border: 8px solid black;
+    position: relative;
+}
+
+.login_form button .pokeball::before {
+    content: "";
+    width: 100px;
+    left: 0px;
+    height: 12px;
+    background: black;
+    top: 50%;
+    position: absolute;
+}
+
+.login_form button .pokeball_center {
+    border-radius: 50% 50% 50% 50%;
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    border: 8px solid black;
+    left: 28px;
+    top: 28px;
+    position: relative;
+    z-index: 1; 
+}
+
+  @keyframes rotate_button{
+    0%{
+        transform:scale(1.05) rotate(0deg);
+    }
+    100%{
+        transform:scale(1.05) rotate(360deg);
+    }
+  }
+  
+  @keyframes rotate360 {
+        0%{
+            transform: translate(-50%, -50%) rotate(0deg);
+        }
+        100%{
+            transform: translate(-50%, -50%) rotate(360deg);
+        }
+  }
+
+  @keyframes login_form_appear{
+    0%{
+      max-height: 0px;
+    }
+    100%{
+      max-height: 400px; 
+    }
+  }
+  @keyframes login_form_disappear{
+    0%{
+      height: 400px;
+    }
+    100%{
+      height: 0px; 
+    }
+  }
+
+
+.login_form button:hover {
+  animation: rotate_button 18s infinite linear;
+}
+.login_form button:hover .pokeball_center{
+  animation: rotate_button 18s infinite linear;
+}
+
+.login_form button:hover .pokeball{
+  animation: rotate_button 18s infinite linear;
+}
+
+
+#middle_button:checked ~ .login_form {
+    animation: login_form_appear 0.3s linear;
+    height: 400px; 
+    background-image: url(image_manaphy.png);
+  }
+
+#middle_button:not(checked) ~ .login_form {
+    animation: rotate360 12s infinite linear,login_form_disappear 0.3s linear;
+  }
+
+
+  
+#middle_button:checked ~ .login_form input {
+    border-radius: 10px;
+    border-width: 5px;
+    border-color: #082246;
+    font-size: 18px;
+    color: black; 
+  }
+  
+
+
+
+
+  
+
+
+  
+  .half_circle {
+    border-radius: 180px 180px 0 0;
+    width: 360px;
+    height: 180px;
+    position: fixed;
+    top: calc(50% - 180px);
+    left: 50%;
+    background-color: rgb(231, 42, 42);
+    z-index: 2;
+    box-shadow: 0 0 0 15px black; 
+    transform-origin: 50% 100%;
+  }
+  
+  .half_circle_bottom {
+    border-radius: 0 0 180px 180px;
+    width: 360px;
+    height: 180px;
+    position: fixed;
+    background-color: #dedadafe;
+    box-shadow: 0 0 0 15px black; 
+    top: calc(50% + 6px);
+    left: 50%;
+    z-index: 2;
+    transform-origin: 50% 0%;
+  }
+  
+  @keyframes circle360 {
+    0% {
+      transform: translate(-50%,calc(-50% + 90px)) rotate(0deg) ;
+    }
+    100% {
+
+      transform: translate(-50%,calc(-50% + 90px)) rotate(360deg) ;
+    }
+  }
+
+  @keyframes go_up_half_circle {
+    0%{
+        transform: translate(-50%, calc(-50% + 100px));
+    }
+    100%{
+        transform: translate(-50%, calc(-50% - 100px));
+    }
+  }
+  @keyframes go_down_half_circle {
+    0%{
+        transform: translate(-50%, calc(-50% - 100px));
+    }
+    100%{
+        transform: translate(-50%, calc(-50% + 100px));
+    }
+  }
+
+  @keyframes go_down_half_circle_bottom {
+    0%{
+        transform: translate(-50%, calc(-50% + 50px));
+    }
+    100%{
+        transform: translate(-50%, calc(50% + 75px));
+    }
+  }
+  @keyframes go_up_half_circle_bottom {
+    0%{
+        transform: translate(-50%, calc(50% + 75px));
+    }
+    100%{
+        transform: translate(-50%, calc(-50%));
+    }
+  }
+
+  #middle_button:not(checked) ~ .half_circle{
+    animation: circle360 12s infinite linear, go_down_half_circle 0.2s ease;
+  }
+
+  #middle_button:not(checked) ~ .half_circle_bottom{
+    animation: circle360 12s infinite linear, go_up_half_circle_bottom 0.2s ease;;
+  }
+
+
+  #middle_button:checked ~ .half_circle {
+    animation: go_up_half_circle 0.5s ease;
+    transform: translate(-50%, calc(-50% - 100px));
+  }
+  
+
+  #middle_button:checked ~ .half_circle_bottom {
+    animation: go_down_half_circle_bottom 0.6s ease;
+    transform: translate(-50%, calc(50% + 75px));
+  }
+
+
+  
