@@ -6,30 +6,65 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    
     <div class="front_layer">
+        <div id="clock" class="clock"></div>
         <!-- Prompt : How do I create a custom checkbox with a custom style?-->
         <input type="checkbox" id="middle_button" class="middle_button_checkbox">
         <label for="middle_button" class="middle_button_inner_circle"></label>
-
         <div class="half_circle"></div>
         <div class="half_circle_bottom"></div>
 
         <div class="layer_top"></div>
         <div class="layer_bottom"></div>
 
-        <div class="login_form">
+        <div class="login_form" id="login_form">
             <h2><br><br></h2>
             <h2>Trainer Login</h2>
-            <input type="text" placeholder="Username">
-            <input type="password" placeholder="Password">
+            <input type="text" id = "username" placeholder="Username">
+            <input type="password" id = "password" placeholder="Password">
 
             <!-- Prompt : how can i make a button with more than 1 class -->
-            <button>
+            <button onclick="loginFormDetails()">
                 <div class="pokeball">
                     <div class = "pokeball_center" ></div>
                 </div>
             </button>
 
         </div>
+
+        <script>
+
+        function loginFormDetails() {  
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+            let loginInfo = [username,password]; 
+                console.log("Login info:", loginInfo);
+        };
+
+        function FormsVisibilityOnOff() {
+                let form = document.getElementById("login_form");
+                if (form.style.display === "none") {
+                    form.style.display = "block";
+                } else {
+                    form.style.display = "none";
+                }
+        }
+
+        document.addEventListener("keydown", function(event) {
+            if (event.key.toLowerCase() === "h") {
+                FormsVisibilityOnOff();
+            }
+        });
+
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            document.getElementById("clock").textContent = timeString;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+        
+        </script>
 </body>
 </html>
