@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Class Table</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+    <!-- Explanation Box -->
+    <div id="explanationBox">
+        <h3>Explanation of Dynamic Effects:</h3>
+        <ul>
+            <li><strong>Click On Row:</strong> When you click on a table row, it is highlighted in red to indicate that it has been selected.</li>
+            <li><strong>Hover Over Row:</strong> When you hover over a row, it changes the background color to light blue. If the row is selected, it will show yellow.</li>
+            <li><strong>Mouse Away From Row:</strong> When you move your mouse out of a row, it will reset the background color unless the row is selected.</li>
+            <li><strong>Mouse Double Click Row:</strong> Deletes Row</li>
+        </ul>
+    </div>
+
+    <!-- Form Container -->
+    <div id="classFormContainer">
+        <h2 style="color: #082246;">Class Information Form</h2>
+        <form id="classForm">
+            <input type="text" id="className" placeholder="Class Name">
+            <input type="number" id="numPeople" placeholder="Number of People">
+            <input type="text" id="description" placeholder="Description">
+            <button type="submit">Add Class</button>
+        </form>
+    </div>
+
+    <!-- Table Container -->
+    <div id="classTableContainer">
+        <h2 style="color: #082246;">Class Table</h2>
+        <table id="classTable">
+            <thead>
+                <tr>
+                    <th>Class Name</th>
+                    <th>Number of People</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody id="table_body"></tbody>
+        </table>
+    </div>
+    <script>
+        document.getElementById("classForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent page reload
+    
+            let className = document.getElementById("className").value;
+            let numPeople = document.getElementById("numPeople").value;
+            let description = document.getElementById("description").value;
+    
+            let table = document.getElementById("table_body");
+            let newRow = table.insertRow();
+    
+            newRow.innerHTML = `<td>${className}</td><td>${numPeople}</td><td>${description}</td>`;
+    
+            // Add click event to highlight row
+            newRow.addEventListener("click", function() {
+                this.classList.toggle("selected");
+                if(this.classList.contains("selected"))
+                    this.style.backgroundColor = 'Red';
+            });
+    
+            // Add hover effects
+            newRow.addEventListener("mouseover", function() {
+                if(!this.classList.contains("selected"))
+                    this.style.backgroundColor = '#e0f7fa';
+                else
+                    this.style.backgroundColor = 'Yellow';
+            });
+    
+            newRow.addEventListener("mouseout", function() {
+                if (!this.classList.contains("selected")) {
+                    this.style.backgroundColor = 'White';
+                }
+                if (this.classList.contains("selected")) {
+                    this.style.backgroundColor = 'Red';
+                }
+            });
+
+    
+            // Add double-click event to delete row
+            newRow.addEventListener("dblclick", function() {
+                this.remove();  // Remove the clicked row
+            });
+    
+            // Clear form inputs
+            document.getElementById("classForm").reset();
+        });
+    </script>
+</body>
+</html>
