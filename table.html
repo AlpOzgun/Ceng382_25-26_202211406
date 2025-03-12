@@ -56,14 +56,12 @@
     
             newRow.innerHTML = `<td>${className}</td><td>${numPeople}</td><td>${description}</td>`;
     
-            // Add click event to highlight row
             newRow.addEventListener("click", function() {
                 this.classList.toggle("selected");
                 if(this.classList.contains("selected"))
                     this.style.backgroundColor = 'Red';
             });
     
-            // Add hover effects
             newRow.addEventListener("mouseover", function() {
                 if(!this.classList.contains("selected"))
                     this.style.backgroundColor = '#e0f7fa';
@@ -81,12 +79,10 @@
             });
 
     
-            // Add double-click event to delete row
             newRow.addEventListener("dblclick", function() {
-                this.remove();  // Remove the clicked row
+                this.remove();  
             });
-    
-            // Clear form inputs
+
             document.getElementById("classForm").reset();
         });
     </script>
