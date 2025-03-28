@@ -6,8 +6,8 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-6">
-            <h2>"Add New Class"</h2>
+        <div class="col-md-6 form-container">
+            <h2 class="section-header">Add New Class</h2>
             <form method="post">
                 <!-- Prompt Make a form that Changes when an entity is not null -->
                 @if (Model.EditedClass != null)
@@ -32,17 +32,17 @@
                 <!-- Make a button that Changes when a variable is null-->
                 @if (Model.EditedClass == null)
                 {
-                    <button type="submit" class="btn btn-primary" asp-page-handler="Add">Add Class</button>
+                    <button type="submit" class="btn btn-primary action-btn" asp-page-handler="Add">Add Class</button>
                 }
                 else
                 {
-                    <button type="submit" class="btn btn-warning" asp-page-handler="Edit">Save Changes</button>
+                    <button type="submit" class="btn btn-warning action-btn" asp-page-handler="Edit">Save Changes</button>
                 }
             </form>
         </div>
-
-        <div class="col-md-6">
-            <h2>Class List</h2>
+        <!-- Prompt: make a table that lists elements of ClassList <ClassInformationModel> -->
+        <div class="col-md-6 table-container">
+            <h2 class="section-header">Class List</h2>
             <table class="table">
                 <thead>
                     <tr>
@@ -54,25 +54,28 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Prompt : make a table table list elements of this ClassList <ClassInformationModel> -->
+                    <!-- Prompt: make a table that lists elements of ClassList <ClassInformationModel> -->
                     @for (int i = 0; i < IndexModel.ClassList.Count; i++)
                     {
                         var item = IndexModel.ClassList[i];
                         <tr>
-                            <td>@item.Id</td>
-                            <td>@item.ClassName</td>
-                            <td>@item.StudentCount</td>
-                            <td>@item.Description</td>
-                            <td>
-                                <a href="@Url.Page("./Index", new { id = item.Id, handler = "Edit" })" class="btn btn-warning">Edit</a>
-                                <form method="post" style="display:inline;">
+                            <td style="background: rgb(97, 241, 234);">@item.Id</td>
+                            <td style="background: rgb(136, 223, 218);">@item.ClassName</td>
+                            <td style="background: rgb(97, 241, 234);">@item.StudentCount</td>
+                            <td style="background: rgb(136, 223, 218);">@item.Description</td>
+                            <td class="action-buttons" style="background: rgb(97, 241, 234); vertical-align: middle;">
+                                <a href="@Url.Page("./Index", new { id = item.Id, handler = "Edit" })" class="btn btn-warning table-btn" style="justify-content: center;">
+                                    <img src="/images/pencil.png" style="width: 30px; height: 30px;">
+                                </a>
+                                <form method="post" class="delete-form">
                                     <input type="hidden" name="id" value="@item.Id" />
-                                    <button type="submit" class="btn btn-danger" asp-page-handler="Delete">Delete</button>
+                                    <button type="submit" class="btn btn-danger table-btn" asp-page-handler="Delete" style="justify-content: center;">
+                                        <img src="/images/trash.png" style="width: 30px; height: 30px;">
+                                    </button>
                                 </form>
                             </td>
                         </tr>
                     }
-
                 </tbody>
             </table>
         </div>

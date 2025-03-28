@@ -13,7 +13,8 @@ namespace MyRazorApp.Pages
         public void OnGet()
         {
         }
-
+        
+        //how do i make a button that takes values from a form for a class and adds to a list in a cshtml and cshtml.cs file
         public IActionResult OnPostAdd(string className, int studentCount, string description)
         {
             var newClass = new ClassInformationModel(className, studentCount, description);
@@ -55,6 +56,7 @@ namespace MyRazorApp.Pages
             return Page();
         }
 
+        //Prompt how do i edit that element that i filled the form with
         public IActionResult OnPostEdit(int id, string className, int studentCount, string description)
         {
             ClassInformationModel? UpdatedClass = null;
