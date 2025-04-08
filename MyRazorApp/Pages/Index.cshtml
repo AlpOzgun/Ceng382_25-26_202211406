@@ -9,7 +9,7 @@
         <div class="col-md-6 form-container">
             <h2 class="section-header">Add New Class</h2>
             <form method="post">
-                <!-- Prompt Make a form that Changes when an entity is not null -->
+                <!-- Form for adding or editing a class -->
                 @if (Model.EditedClass != null)
                 {
                     <input type="hidden" name="id" value="@Model.EditedClass.Id" />
@@ -29,7 +29,6 @@
                     <input type="text" class="form-control" id="Description" name="description" value="@Model.EditedClass?.Description" required />
                 </div>
 
-                <!-- Make a button that Changes when a variable is null-->
                 @if (Model.EditedClass == null)
                 {
                     <button type="submit" class="btn btn-primary action-btn" asp-page-handler="Add">Add Class</button>
@@ -40,24 +39,21 @@
                 }
             </form>
         </div>
-        <!-- Prompt: make a table that lists elements of ClassList <ClassInformationModel> -->
         <div class="col-md-6 table-container">
             <h2 class="section-header">Class List</h2>
-            
 
-            <!-- Prompt : How do i keep the values of MinStudentCount,MaxStudentCount after a get request form is submited-->
             <form method="get">
-            <div class="form-group">
-                <label for="minStudentCount">Min Student Count</label>
-                <input type="number" id="minStudentCount" name="minStudentCount" class="form-control" value="@Model.MinStudentCount" />
-            </div>
-        
-            <div class="form-group">
-                <label for="maxStudentCount">Max Student Count</label>
-                <input type="number" id="maxStudentCount" name="maxStudentCount" class="form-control" value="@Model.MaxStudentCount" />
-            </div>
-        
-            <button type="submit" class="btn btn-primary">Filter</button>
+                <div class="form-group">
+                    <label for="minStudentCount">Min Student Count</label>
+                    <input type="number" id="minStudentCount" name="minStudentCount" class="form-control" value="@Model.MinStudentCount" />
+                </div>
+
+                <div class="form-group">
+                    <label for="maxStudentCount">Max Student Count</label>
+                    <input type="number" id="maxStudentCount" name="maxStudentCount" class="form-control" value="@Model.MaxStudentCount" />
+                </div>
+
+                <button type="submit" class="btn btn-primary">Filter</button>
             </form>
 
             <form method="post">
@@ -72,12 +68,15 @@
                         <button type="submit" name="Page" class="btn btn-primary action-btn" value="@(i + 1)" asp-page-handler="ChangePage" disabled>@(i + 1)</button>
                     }
                 }
-                <!-- Prompt : How do i keep the values of MinStudentCount,MaxStudentCount after a post request-->
+
                 <input type="hidden" id="minStudentCountHidden" name="minStudentCount" value="@Model.MinStudentCount" />
                 <input type="hidden" id="maxStudentCountHidden" name="maxStudentCount" value="@Model.MaxStudentCount" />
             </form> 
+
             <br>
-            
+             <form method="post">
+            <button type="submit" class="btn btn-success action-btn" asp-page-handler="ExportJson">Export to Json</button>
+            </form>
             <table class="table">
                 <thead>
                     <tr>
@@ -88,8 +87,6 @@
                     </tr>
                 </thead>
                 <tbody>
-            
-                    <!-- Prompt: make a table that lists elements of ClassList <ClassInformationModel> -->
                     @for (int i = 0; i < IndexModel.ClassTable_page.Count; i++)
                     {
                         var item = IndexModel.ClassTable_page[i];
@@ -125,10 +122,10 @@
                         <button type="submit" name="Page" class="btn btn-primary action-btn" value="@(i + 1)" asp-page-handler="ChangePage" disabled>@(i + 1)</button>
                     }
                 }
-                <!-- Prompt : How do i keep the values of MinStudentCount,MaxStudentCount after a post request-->
+
                 <input type="hidden" id="minStudentCountHidden" name="minStudentCount" value="@Model.MinStudentCount" />
                 <input type="hidden" id="maxStudentCountHidden" name="maxStudentCount" value="@Model.MaxStudentCount" />
-            </form> 
+            </form>
         </div>
     </div>
 </div>

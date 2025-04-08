@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyRazorApp.Models;
+using MyRazorApp.Helpers;
 using System.Linq;
-
+using MyRazorApp.Helpers;
 namespace MyRazorApp.Pages
 {
     public class IndexModel : PageModel
@@ -132,5 +133,19 @@ public IActionResult OnPostChangePage(int Page, int? minStudentCount, int? maxSt
     MaxStudentCount = maxStudentCount ?? MaxStudentCount;
     return RedirectToPage(new { minStudentCount = MinStudentCount, maxStudentCount = MaxStudentCount});
 }
+
+
+public IActionResult OnPostExportJson()
+{
+    string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "JSON", "filtered_classes.json");
+
+    Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+
+    Utils.ExportJsonToFile(selectedClasses, filePath);
+
+    return RedirectToPage(); 
+}
+
     }
+
 }
