@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "QCBjpYeGqMT0tFH0CJ5x0fFEQKPnS7P+hlYLyiSxssg=",
+  "Hash": "jyTJ6/kOGCPsDgjR1kGtqZLytSpEi4wU9lmGavlr8UY=",
   "Source": "MyRazorApp",
   "BasePath": "_content/MyRazorApp",
   "Mode": "Default",
@@ -91,25 +91,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\style.css"
-    },
-    {
-      "Identity": "C:\\Users\\test\\Desktop\\temp\\Ceng382_25-26_202211406\\MyRazorApp\\wwwroot\\exports\\filtered_classes.csv",
-      "SourceId": "MyRazorApp",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\test\\Desktop\\temp\\Ceng382_25-26_202211406\\MyRazorApp\\wwwroot\\",
-      "BasePath": "_content/MyRazorApp",
-      "RelativePath": "exports/filtered_classes.csv",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\exports\\filtered_classes.csv"
     },
     {
       "Identity": "C:\\Users\\test\\Desktop\\temp\\Ceng382_25-26_202211406\\MyRazorApp\\wwwroot\\favicon.ico",

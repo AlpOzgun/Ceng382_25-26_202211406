@@ -13,10 +13,6 @@
       "PackagePath": "staticwebassets\\css\\style.css"
     },
     {
-      "Id": "C:\\Users\\test\\Desktop\\temp\\Ceng382_25-26_202211406\\MyRazorApp\\wwwroot\\exports\\filtered_classes.csv",
-      "PackagePath": "staticwebassets\\exports\\filtered_classes.csv"
-    },
-    {
       "Id": "C:\\Users\\test\\Desktop\\temp\\Ceng382_25-26_202211406\\MyRazorApp\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
     },

@@ -9,7 +9,7 @@
         <div class="col-md-6 form-container">
             <h2 class="section-header">Add New Class</h2>
             <form method="post">
-                <!-- Form for adding or editing a class -->
+                <!-- Prompt Make a form that Changes when an entity is not null -->
                 @if (Model.EditedClass != null)
                 {
                     <input type="hidden" name="id" value="@Model.EditedClass.Id" />
@@ -39,9 +39,11 @@
                 }
             </form>
         </div>
+        <!-- Prompt: make a table that lists elements of ClassList <ClassInformationModel> -->
         <div class="col-md-6 table-container">
             <h2 class="section-header">Class List</h2>
 
+            <!-- Prompt : How do i keep the values of MinStudentCount,MaxStudentCount after a get request form is submited-->
             <form method="get">
                 <div class="form-group">
                     <label for="minStudentCount">Min Student Count</label>
@@ -68,25 +70,37 @@
                         <button type="submit" name="Page" class="btn btn-primary action-btn" value="@(i + 1)" asp-page-handler="ChangePage" disabled>@(i + 1)</button>
                     }
                 }
-
+                <!-- Prompt : How do i keep the values of MinStudentCount,MaxStudentCount after a post request-->
                 <input type="hidden" id="minStudentCountHidden" name="minStudentCount" value="@Model.MinStudentCount" />
                 <input type="hidden" id="maxStudentCountHidden" name="maxStudentCount" value="@Model.MaxStudentCount" />
             </form> 
 
             <br>
-             <form method="post">
-            <button type="submit" class="btn btn-success action-btn" asp-page-handler="ExportJson">Export to Json</button>
-            </form>
             <table class="table">
+                <form method="post">
+                    <button type="submit" class="btn btn-success action-btn" asp-page-handler="ExportJson">Export to Json</button>
+                    <p style="font: 15px;font-family: Arial, Helvetica, sans-serif;font-weight:bold;">
+                        If a column is selected only selected columns will be exported to the JSON</p>
+                     <p style="font: 15px;font-family: Arial, Helvetica, sans-serif;font-weight:bold;">
+                        If no column is selected all columns will be exported to the JSON </p>
+                    <p style="font: 15px;font-family: Arial, Helvetica, sans-serif;font-weight:bold;">
+                        The exported JSON can be found in wwwroot/JSON</p>                     
                 <thead>
                     <tr>
-                        <th>Class Name</th>
-                        <th>Student Count</th>
-                        <th>Description</th>
+                        <th class="checkbox-th">    
+                            <input type="checkbox" class="checkbox-input" name="selectedColumns[]" value="ClassName" /><br>Class Name
+                        </th>
+                        <th class="checkbox-th">
+                            <input type="checkbox" class="checkbox-input" name="selectedColumns[]" value="StudentCount" />Student Count
+                        </th>
+                        <th class="checkbox-th">
+                            <input type="checkbox" class="checkbox-input" name="selectedColumns[]" value="Description" />Description
+                        </th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- Prompt: make a table that lists elements of ClassList <ClassInformationModel> -->
                     @for (int i = 0; i < IndexModel.ClassTable_page.Count; i++)
                     {
                         var item = IndexModel.ClassTable_page[i];
@@ -106,9 +120,12 @@
                                 </form>
                             </td>
                         </tr>
-                    }
+                        }
                 </tbody>
-            </table>
+            </form>
+        </table>
+            
+
 
             <form method="post">
                 @for (int i = 0; i < (IndexModel.selectedClasses.Count + 9) / 10; i++)
@@ -122,7 +139,7 @@
                         <button type="submit" name="Page" class="btn btn-primary action-btn" value="@(i + 1)" asp-page-handler="ChangePage" disabled>@(i + 1)</button>
                     }
                 }
-
+                <!-- Prompt : How do i keep the values of MinStudentCount,MaxStudentCount after a post request-->
                 <input type="hidden" id="minStudentCountHidden" name="minStudentCount" value="@Model.MinStudentCount" />
                 <input type="hidden" id="maxStudentCountHidden" name="maxStudentCount" value="@Model.MaxStudentCount" />
             </form>

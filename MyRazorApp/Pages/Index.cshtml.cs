@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyRazorApp.Models;
 using MyRazorApp.Helpers;
 using System.Linq;
-using MyRazorApp.Helpers;
 namespace MyRazorApp.Pages
 {
     public class IndexModel : PageModel
@@ -124,27 +123,28 @@ namespace MyRazorApp.Pages
             return RedirectToPage();
         }
 
-public IActionResult OnPostChangePage(int Page, int? minStudentCount, int? maxStudentCount)
-{
-    if (Page <= ClassList.Count / 10 + 1)
-        CurrentPage = Page; 
-    // Prompt : How do i keep the values of MinStudentCount,MaxStudentCount after a post request
-    MinStudentCount = minStudentCount ?? MinStudentCount;
-    MaxStudentCount = maxStudentCount ?? MaxStudentCount;
-    return RedirectToPage(new { minStudentCount = MinStudentCount, maxStudentCount = MaxStudentCount});
-}
+        public IActionResult OnPostChangePage(int Page, int? minStudentCount, int? maxStudentCount)
+        {
+            if (Page <= ClassList.Count / 10 + 1)
+                CurrentPage = Page; 
+            // Prompt : How do i keep the values of MinStudentCount,MaxStudentCount after a post request
+            MinStudentCount = minStudentCount ?? MinStudentCount;
+            MaxStudentCount = maxStudentCount ?? MaxStudentCount;
+            return RedirectToPage(new { minStudentCount = MinStudentCount, maxStudentCount = MaxStudentCount});
+        }
 
 
-public IActionResult OnPostExportJson()
-{
-    string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "JSON", "filtered_classes.json");
+        public IActionResult OnPostExportJson(List<string> selectedColumns)
+        {
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "JSON", "exported_classes.json");
+            string? JSONPath=Path.GetDirectoryName(filePath);
+            if(JSONPath != null){
+            Directory.CreateDirectory(JSONPath);
+            Utils.ExportJsonToFile(selectedClasses, filePath, selectedColumns);
+            }
+            return RedirectToPage();
+        }
 
-    Directory.CreateDirectory(Path.GetDirectoryName(filePath));
-
-    Utils.ExportJsonToFile(selectedClasses, filePath);
-
-    return RedirectToPage(); 
-}
 
     }
 

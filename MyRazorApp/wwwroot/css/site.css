@@ -147,3 +147,14 @@ nav {
 .delete-form {
   display: inline;
 }
+
+.checkbox-th {
+  text-align: center;
+  width: 100%;
+}
+
+.checkbox-input {
+  transform: scale(2);
+  margin: 0;
+  cursor: pointer;
+}
