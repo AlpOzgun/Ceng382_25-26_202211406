@@ -4,145 +4,27 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 form-container">
-            <h2 class="section-header">Add New Class</h2>
-            <form method="post">
-                <!-- Prompt Make a form that Changes when an entity is not null -->
-                @if (Model.EditedClass != null)
-                {
-                    <input type="hidden" name="id" value="@Model.EditedClass.Id" />
-                }
-                <div class="form-group">
-                    <label for="ClassName">Class Name</label>
-                    <input type="text" class="form-control" id="ClassName" name="className" value="@Model.EditedClass?.ClassName" required />
-                </div>
-
-                <div class="form-group">
-                    <label for="StudentCount">Student Count</label>
-                    <input type="number" class="form-control" id="StudentCount" name="studentCount" value="@Model.EditedClass?.StudentCount" required />
-                </div>
-
-                <div class="form-group">
-                    <label for="Description">Description</label>
-                    <input type="text" class="form-control" id="Description" name="description" value="@Model.EditedClass?.Description" required />
-                </div>
-
-                @if (Model.EditedClass == null)
-                {
-                    <button type="submit" class="btn btn-primary action-btn" asp-page-handler="Add">Add Class</button>
-                }
-                else
-                {
-                    <button type="submit" class="btn btn-warning action-btn" asp-page-handler="Edit">Save Changes</button>
-                }
-            </form>
-        </div>
-        <!-- Prompt: make a table that lists elements of ClassList <ClassInformationModel> -->
-        <div class="col-md-6 table-container">
-            <h2 class="section-header">Class List</h2>
-
-            <!-- Prompt : How do i keep the values of MinStudentCount,MaxStudentCount after a get request form is submited-->
-            <form method="get">
-                <div class="form-group">
-                    <label for="minStudentCount">Min Student Count</label>
-                    <input type="number" id="minStudentCount" name="minStudentCount" class="form-control" value="@Model.MinStudentCount" />
-                </div>
-
-                <div class="form-group">
-                    <label for="maxStudentCount">Max Student Count</label>
-                    <input type="number" id="maxStudentCount" name="maxStudentCount" class="form-control" value="@Model.MaxStudentCount" />
-                </div>
-
-                <button type="submit" class="btn btn-primary">Filter</button>
-            </form>
-
-            <form method="post">
-                @for (int i = 0; i < (IndexModel.selectedClasses.Count + 9) / 10; i++)
-                {
-                    @if (IndexModel.CurrentPage != i + 1)
-                    {
-                        <button type="submit" name="Page" class="btn btn-primary action-btn" value="@(i + 1)" asp-page-handler="ChangePage">@(i + 1)</button>
-                    }
-                    @if (IndexModel.CurrentPage == i + 1)
-                    {
-                        <button type="submit" name="Page" class="btn btn-primary action-btn" value="@(i + 1)" asp-page-handler="ChangePage" disabled>@(i + 1)</button>
-                    }
-                }
-                <!-- Prompt : How do i keep the values of MinStudentCount,MaxStudentCount after a post request-->
-                <input type="hidden" id="minStudentCountHidden" name="minStudentCount" value="@Model.MinStudentCount" />
-                <input type="hidden" id="maxStudentCountHidden" name="maxStudentCount" value="@Model.MaxStudentCount" />
-            </form> 
-
-            <br>
-            <table class="table">
-                <form method="post">
-                    <button type="submit" class="btn btn-success action-btn" asp-page-handler="ExportJson">Export to Json</button>
-                    <p style="font: 15px;font-family: Arial, Helvetica, sans-serif;font-weight:bold;">
-                        If a column is selected only selected columns will be exported to the JSON</p>
-                     <p style="font: 15px;font-family: Arial, Helvetica, sans-serif;font-weight:bold;">
-                        If no column is selected all columns will be exported to the JSON </p>
-                    <p style="font: 15px;font-family: Arial, Helvetica, sans-serif;font-weight:bold;">
-                        The exported JSON can be found in wwwroot/JSON</p>                     
-                <thead>
-                    <tr>
-                        <th class="checkbox-th">    
-                            <input type="checkbox" class="checkbox-input" name="selectedColumns[]" value="ClassName" /><br>Class Name
-                        </th>
-                        <th class="checkbox-th">
-                            <input type="checkbox" class="checkbox-input" name="selectedColumns[]" value="StudentCount" />Student Count
-                        </th>
-                        <th class="checkbox-th">
-                            <input type="checkbox" class="checkbox-input" name="selectedColumns[]" value="Description" />Description
-                        </th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Prompt: make a table that lists elements of ClassList <ClassInformationModel> -->
-                    @for (int i = 0; i < IndexModel.ClassTable_page.Count; i++)
-                    {
-                        var item = IndexModel.ClassTable_page[i];
-                        <tr>
-                            <td style="background: rgb(136, 223, 218);">@item.ClassName</td>
-                            <td style="background: rgb(97, 241, 234);">@item.StudentCount</td>
-                            <td style="background: rgb(136, 223, 218);">@item.Description</td>
-                            <td class="action-buttons" style="background: rgb(97, 241, 234); vertical-align: middle;">
-                                <a href="@Url.Page("./Index", new { id = item.Id, handler = "Edit" })" class="btn btn-warning table-btn" style="justify-content: center;">
-                                    <img src="/images/pencil.png" style="width: 30px; height: 30px;">
-                                </a>
-                                <form method="post" class="delete-form">
-                                    <input type="hidden" name="id" value="@item.Id" />
-                                    <button type="submit" class="btn btn-danger table-btn" asp-page-handler="Delete" style="justify-content: center;">
-                                        <img src="/images/trash.png" style="width: 30px; height: 30px;">
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                        }
-                </tbody>
-            </form>
-        </table>
-            
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+    <h2>Login</h2>
 
 
-            <form method="post">
-                @for (int i = 0; i < (IndexModel.selectedClasses.Count + 9) / 10; i++)
-                {
-                    @if (IndexModel.CurrentPage != i + 1)
-                    {
-                        <button type="submit" name="Page" class="btn btn-primary action-btn" value="@(i + 1)" asp-page-handler="ChangePage">@(i + 1)</button>
-                    }
-                    @if (IndexModel.CurrentPage == i + 1)
-                    {
-                        <button type="submit" name="Page" class="btn btn-primary action-btn" value="@(i + 1)" asp-page-handler="ChangePage" disabled>@(i + 1)</button>
-                    }
-                }
-                <!-- Prompt : How do i keep the values of MinStudentCount,MaxStudentCount after a post request-->
-                <input type="hidden" id="minStudentCountHidden" name="minStudentCount" value="@Model.MinStudentCount" />
-                <input type="hidden" id="maxStudentCountHidden" name="maxStudentCount" value="@Model.MaxStudentCount" />
-            </form>
-        </div>
-    </div>
-</div>
+    <form method="post">
+        <label>Username:</label><br />
+        <input type="text" name="Username" required /><br/><br/>
+
+        <label>Password:</label><br />
+        <input type="password" name="Password" required /><br/><br/>
+
+        <input type="submit" value="Login" asp-page-handler="Login"/>
+    </form>
+    @if(IndexModel.wrong){
+        <p style="color: red; font-size: large;">Username or password is wrong</p>
+    }
+</body>
+</html>
+
