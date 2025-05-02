@@ -13,6 +13,12 @@ namespace MyRazorApp.Models
                 Description=model.Description;
                 Id=model.Id;
         }
+        public ClassInformationTable(Class model){
+                ClassName=model.Name;
+                StudentCount=model.PersonCount;
+                Description=model.Description;
+                Id=model.Id;
+        }
 
     }
 }

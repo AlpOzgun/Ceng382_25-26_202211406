@@ -5,10 +5,6 @@
       "PackagePath": "staticwebassets\\MyRazorApp.bundle.scp.css"
     },
     {
-      "Id": "C:\\Users\\test\\Desktop\\temp\\Ceng382_25-26_202211406\\MyRazorApp\\wwwroot\\JSON\\UsersJSON.json",
-      "PackagePath": "staticwebassets\\JSON\\UsersJSON.json"
-    },
-    {
       "Id": "C:\\Users\\test\\Desktop\\temp\\Ceng382_25-26_202211406\\MyRazorApp\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },

@@ -3,130 +3,139 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyRazorApp.Models;
 using MyRazorApp.Helpers;
 using System.Linq;
+using MyRazorApp.Data;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace MyApp.Namespace
 {
     public class TableModel : PageModel
     {
-     public static List<ClassInformationModel> ClassList = new List<ClassInformationModel>();
-
-        public static List<ClassInformationModel> selectedClasses = new List<ClassInformationModel>();
-
-        public ClassInformationModel? EditedClass { get; set; }
+        public static List<Class> Db_selectedClasses = new List<Class>();
+        public Class? Db_EditedClass { get; set; }
         static bool new_page=true;
         public static int CurrentPage { get; set; } = 1;
-        public static List<ClassInformationTable> ClassTable_page = new List<ClassInformationTable>();
+        public static List<ClassInformationTable> Db_ClassTable_page = new List<ClassInformationTable>();
         public int? MinStudentCount { get; set; }
         public int? MaxStudentCount { get; set; }
-        public void OnGet(int? minStudentCount, int? maxStudentCount)
+         private readonly SchoolDbContext _context;
+
+
+
+        public TableModel(SchoolDbContext context)
+        {
+            _context = context;
+        }
+        public IList<Class> DbClassList { get; set; }
+        public async Task OnGetAsync(int? minStudentCount, int? maxStudentCount)
         {           
+            
             //Prompt : how do i keep MinStudentCount,MaxStudentCount static when an onget happens
              MinStudentCount = minStudentCount ?? MinStudentCount;
              MaxStudentCount = maxStudentCount ?? MaxStudentCount;
+            int startIndex = (CurrentPage - 1) * 10;
+            //Prompt : how do i use linq to put an upper and lower bound while getting a list
 
-            if(new_page){
-                for(int i=0;i<100;i++){
-                    ClassList.Add(new ClassInformationModel($"{i+1}th class",i+1,$"{i+1} students"));
+            
+            if(!await _context.Classes.AnyAsync(c => c.IsActive)){
+                for(int i=0;i<80;i++){
+                    _context.Classes.Add(new Class{
+                        Name=$"{i+1}th class",
+                        PersonCount = i+1,
+                        Description = $"{i+1} students",
+                        IsActive=true
+                    });
                 }
                 new_page=false;
-            }
-            ClassTable_page.Clear();
-            int startIndex = (CurrentPage - 1) * 10;
-            int prev=selectedClasses.Count;
-            //Prompt : how do i use linq to put an upper and lower bound while getting a list
-            selectedClasses = ClassList
-                .Where(c => (!MinStudentCount.HasValue || c.StudentCount >= MinStudentCount) && 
-                            (!MaxStudentCount.HasValue || c.StudentCount <= MaxStudentCount))
-                .ToList();
-            if(prev != selectedClasses.Count && prev != selectedClasses.Count-1 && prev != selectedClasses.Count+1){
+                await _context.SaveChangesAsync();
+                
+                         }   
+            DbClassList = await _context.Classes.ToListAsync();
+            int db_prev=Db_selectedClasses.Count;
+            Db_selectedClasses =DbClassList.Where(c => (!MinStudentCount.HasValue || c.PersonCount >= MinStudentCount) && 
+                            (!MaxStudentCount.HasValue || c.PersonCount <= MaxStudentCount) && c.IsActive).ToList();
+            if(db_prev != Db_selectedClasses.Count && db_prev != Db_selectedClasses.Count-1 && db_prev != Db_selectedClasses.Count+1){
                 CurrentPage=1;
                 startIndex=0;
-            }
-            ClassTable_page.AddRange(selectedClasses.Skip(startIndex).Take(10).Select(c => new ClassInformationTable(c)));
+            } 
+            Db_ClassTable_page.Clear();
+            Db_ClassTable_page.AddRange(Db_selectedClasses.Skip(startIndex).Take(10).Select(c => new ClassInformationTable(c)));
+
             RedirectToPage();
         }
 
         //Prompt how do i fill a form with the attributes of an object from am list
-        public IActionResult OnGetEdit(int id)
+        public async Task<IActionResult> OnGetEdit(int id)
         {
-            EditedClass = null;
-            for (int i = 0; i < ClassList.Count; i++)
-            {
-                if (ClassList[i].Id == id)
-                {
-                    EditedClass = ClassList[i];
-                    break;
-                }
-            }
 
-            if (EditedClass == null)
-            {
-                return RedirectToPage();
-            }
+            Db_EditedClass=null;
+            
+            Db_EditedClass=await _context.Classes.Where(d=>d.IsActive).FirstOrDefaultAsync(c => c.Id==id);
 
             return Page();
         }
 
         //how do i make a button that takes values from a form for a class and adds to a list in a cshtml and cshtml.cs file
-        public IActionResult OnPostAdd(string className, int studentCount, string description)
+        public async Task<IActionResult> OnPostAdd(string className, int studentCount, string description)
         {
-            var newClass = new ClassInformationModel(className, studentCount, description);
-            ClassList.Add(newClass);
-            if(ClassList.Count%10!=0)
-            CurrentPage=ClassList.Count/10+1;
-            else
-            CurrentPage=ClassList.Count/10;
+                var newClass = new Class
+                {
+                    Name = className,
+                    PersonCount = studentCount,
+                    Description = description,
+                    IsActive = true
+                };
+                _context.Classes.Add(newClass);
+                await _context.SaveChangesAsync();
+                DbClassList = await _context.Classes.Where(c=>c.IsActive).ToListAsync();
+
+                if(DbClassList.Count%10!=0)
+                    CurrentPage=DbClassList.Count/10+1;
+                else
+                    CurrentPage=DbClassList.Count/10;
+
             return RedirectToPage();
         }
 
-        public IActionResult OnPostDelete(int id)
+        public async Task<IActionResult> OnPostDelete(int id)
         {
-            int i=0;
-            for (i = 0; i < ClassList.Count; i++)
-            {
-                if (ClassList[i].Id == id)
-                {
-                    break;
-                }
-            }
+            Class? removed;
 
-            if (ClassList[i] != null)
-            {
-                if(ClassList.Count%10==1){
-                    if(CurrentPage == ClassList.Count/10+1)
+            if(_context.Classes != null){
+                removed = await _context.Classes.FirstOrDefaultAsync(k => k.Id==id);
+                if(removed != null){
+                    removed.IsActive=false;
+                    await _context.SaveChangesAsync();
+                    DbClassList = await _context.Classes.Where(c=>c.IsActive).ToListAsync();
+                    if(CurrentPage*10 == DbClassList.Count+10)
                     CurrentPage-=1;
                 }
-                    
-                ClassList.Remove(ClassList[i]);
             }
             return RedirectToPage();
         }
 
         //Prompt how do i edit that element that i filled the form with
-        public IActionResult OnPostEdit(int id, string className, int studentCount, string description)
+        public async Task<IActionResult> OnPostEdit(int id, string className, int studentCount, string description)
         {
-            ClassInformationModel? UpdatedClass = null;
-            for (int i = 0; i < ClassList.Count; i++)
-            {
-                if (ClassList[i].Id == id)
-                {
-                    UpdatedClass = ClassList[i];
-                    break;
+
+            Class? Updated;
+            if(_context.Classes != null){
+                Updated = await _context.Classes.FirstOrDefaultAsync(c=>c.Id==id);
+                if(Updated != null){
+                    Updated.Name=className;
+                    Updated.Description=description;
+                    Updated.PersonCount=studentCount;
+                    await _context.SaveChangesAsync();
                 }
             }
-
-            if (UpdatedClass != null)
-            {
-                UpdatedClass.ClassName = className;
-                UpdatedClass.StudentCount = studentCount;
-                UpdatedClass.Description = description;
-            }
+            
             return RedirectToPage();
         }
 
-        public IActionResult OnPostChangePage(int Page, int? minStudentCount, int? maxStudentCount)
+        public async Task<IActionResult> OnPostChangePage(int Page, int? minStudentCount, int? maxStudentCount)
         {
-            if (Page <= ClassList.Count / 10 + 1)
+            DbClassList = await _context.Classes.Where(c=>c.IsActive).ToListAsync();
+            if (Page <= DbClassList.Count / 10 + 1)
                 CurrentPage = Page; 
             // Prompt : How do i keep the values of MinStudentCount,MaxStudentCount after a post request
             MinStudentCount = minStudentCount ?? MinStudentCount;
@@ -135,13 +144,18 @@ namespace MyApp.Namespace
         }
 
 
-        public IActionResult OnPostExportJson(List<string> selectedColumns)
+        public async Task<IActionResult> OnPostExportJson(List<string> selectedColumns,int? minStudentCount, int? maxStudentCount)
         {
+            MinStudentCount=minStudentCount;
+            MaxStudentCount=maxStudentCount;
             string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "JSON", "exported_classes.json");
             string? JSONPath=Path.GetDirectoryName(filePath);
+            DbClassList=await _context.Classes.ToListAsync();
+            Db_selectedClasses =DbClassList.Where(c => (!MinStudentCount.HasValue || c.PersonCount >= MinStudentCount) && 
+                            (!MaxStudentCount.HasValue || c.PersonCount <= MaxStudentCount) && c.IsActive).ToList();
             if(JSONPath != null){
             Directory.CreateDirectory(JSONPath);
-            Utils.ExportJsonToFile(selectedClasses, filePath, selectedColumns);
+            Utils.ExportJsonToFile(Db_selectedClasses, filePath, selectedColumns);
             }
             return RedirectToPage();
         }

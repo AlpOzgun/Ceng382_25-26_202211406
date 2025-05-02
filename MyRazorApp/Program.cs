@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using MyRazorApp.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -18,7 +21,11 @@ CookieOptions options = new CookieOptions
     SameSite = SameSiteMode.Strict 
 };
 
+builder.Services.AddDbContext<SchoolDbContext>(options =>
+ options.UseSqlServer(builder.Configuration.GetConnectionString("SchoolDbConnection")));
+
 var app = builder.Build();
+
 
 
 

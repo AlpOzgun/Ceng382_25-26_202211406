@@ -8,23 +8,106 @@
 <html>
 <head>
     <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .login-container {
+            width: 350px;
+            margin: 100px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        p {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .error {
+            color: red;
+            font-size: large;
+            text-align: center;
+        }
+
+        .user-info {
+            margin-top: 20px;
+        }
+
+        .user-info li {
+            list-style: none;
+            padding: 4px 0;
+        }
+    </style>
 </head>
 <body>
-    <h2>Login</h2>
 
+    <div class="login-container">
+        <h2>Login</h2>
 
-    <form method="post">
-        <label>Username:</label><br />
-        <input type="text" name="Username" required /><br/><br/>
+        <form method="post">
+            <label>Username:</label>
+            <input type="text" name="Username" required />
 
-        <label>Password:</label><br />
-        <input type="password" name="Password" required /><br/><br/>
+            <label>Password:</label>
+            <input type="password" name="Password" required />
 
-        <input type="submit" value="Login" asp-page-handler="Login"/>
-    </form>
-    @if(IndexModel.wrong){
-        <p style="color: red; font-size: large;">Username or password is wrong</p>
-    }
+            <input type="submit" value="Login" asp-page-handler="Login"/>
+        </form>
+
+        @if(IndexModel.wrong){
+            <p class="error">Username or password is wrong</p>
+        }
+
+        <div class="user-info">
+            <p><b>If no User exists, 3 users will be automatically generated:</b></p>
+            <li>Username | Password</li>
+            <li>admin | 1234</li>
+            <li>admin2 | 123456</li>
+            <li>admin3 | 123</li>
+        </div>
+    </div>
+
 </body>
 </html>
-

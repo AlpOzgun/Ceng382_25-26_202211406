@@ -26,6 +26,7 @@ namespace MyRazorApp.Models
             StudentCount = studentCount;
             Description = description;
         }
+        
 
         ~ClassInformationModel(){count--;}
     }

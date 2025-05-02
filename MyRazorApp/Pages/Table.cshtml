@@ -22,26 +22,26 @@
             <h2 class="section-header">Add New Class</h2>
             <form method="post">
                 <!-- Prompt Make a form that Changes when an entity is not null -->
-                @if (Model.EditedClass != null)
+                @if (Model.Db_EditedClass != null)
                 {
-                    <input type="hidden" name="id" value="@Model.EditedClass.Id" />
+                    <input type="hidden" name="id" value="@Model.Db_EditedClass.Id" />
                 }
                 <div class="form-group">
                     <label for="ClassName">Class Name</label>
-                    <input type="text" class="form-control" id="ClassName" name="className" value="@Model.EditedClass?.ClassName" required />
+                    <input type="text" class="form-control" id="ClassName" name="className" value="@Model.Db_EditedClass?.Name" required />
                 </div>
 
                 <div class="form-group">
                     <label for="StudentCount">Student Count</label>
-                    <input type="number" class="form-control" id="StudentCount" name="studentCount" value="@Model.EditedClass?.StudentCount" required />
+                    <input type="number" class="form-control" id="StudentCount" name="studentCount" value="@Model.Db_EditedClass?.PersonCount" required />
                 </div>
 
                 <div class="form-group">
                     <label for="Description">Description</label>
-                    <input type="text" class="form-control" id="Description" name="description" value="@Model.EditedClass?.Description" required />
+                    <input type="text" class="form-control" id="Description" name="description" value="@Model.Db_EditedClass?.Description" required />
                 </div>
 
-                @if (Model.EditedClass == null)
+                @if (Model.Db_EditedClass == null)
                 {
                     <button type="submit" class="btn btn-primary action-btn" asp-page-handler="Add">Add Class</button>
                 }
@@ -71,7 +71,7 @@
             </form>
 
             <form method="post">
-                @for (int i = 0; i < (TableModel.selectedClasses.Count + 9) / 10; i++)
+                @for (int i = 0; i < (TableModel.Db_selectedClasses.Count + 9) / 10; i++)
                 {
                     @if (TableModel.CurrentPage != i + 1)
                     {
@@ -91,6 +91,8 @@
             <table class="table">
                 <form method="post">
                     <button type="submit" class="btn btn-success action-btn" asp-page-handler="ExportJson">Export to Json</button>
+                        <input type="hidden" id="minStudentCountHidden" name="minStudentCount" value="@Model.MinStudentCount" />
+                        <input type="hidden" id="maxStudentCountHidden" name="maxStudentCount" value="@Model.MaxStudentCount" />
                     <p style="font: 15px;font-family: Arial, Helvetica, sans-serif;font-weight:bold;">
                         If a column is selected only selected columns will be exported to the JSON</p>
                      <p style="font: 15px;font-family: Arial, Helvetica, sans-serif;font-weight:bold;">
@@ -100,10 +102,10 @@
                 <thead>
                     <tr>
                         <th class="checkbox-th">    
-                            <input type="checkbox" class="checkbox-input" name="selectedColumns[]" value="ClassName" /><br>Class Name
+                            <input type="checkbox" class="checkbox-input" name="selectedColumns[]" value="Name" /><br>Class Name
                         </th>
                         <th class="checkbox-th">
-                            <input type="checkbox" class="checkbox-input" name="selectedColumns[]" value="StudentCount" />Student Count
+                            <input type="checkbox" class="checkbox-input" name="selectedColumns[]" value="PersonCount" />Student Count
                         </th>
                         <th class="checkbox-th">
                             <input type="checkbox" class="checkbox-input" name="selectedColumns[]" value="Description" />Description
@@ -113,9 +115,9 @@
                 </thead>
                 <tbody>
                     <!-- Prompt: make a table that lists elements of ClassList <ClassInformationModel> -->
-                    @for (int i = 0; i < TableModel.ClassTable_page.Count; i++)
+                    @for (int i = 0; i < TableModel.Db_ClassTable_page.Count; i++)
                     {
-                        var item = TableModel.ClassTable_page[i];
+                        var item = TableModel.Db_ClassTable_page[i];
                         <tr>
                             <td style="background: rgb(136, 223, 218);">@item.ClassName</td>
                             <td style="background: rgb(97, 241, 234);">@item.StudentCount</td>
@@ -140,7 +142,7 @@
 
 
             <form method="post">
-                @for (int i = 0; i < (TableModel.selectedClasses.Count + 9) / 10; i++)
+                @for (int i = 0; i < (TableModel.Db_selectedClasses.Count + 9) / 10; i++)
                 {
                     @if (TableModel.CurrentPage != i + 1)
                     {

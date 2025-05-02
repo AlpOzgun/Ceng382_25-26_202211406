@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "/3cjP3Y9u7ek2g+jz3/luwN9yiMttrOh0suL0qz+kEo=",
+  "Hash": "jyTJ6/kOGCPsDgjR1kGtqZLytSpEi4wU9lmGavlr8UY=",
   "Source": "MyRazorApp",
   "BasePath": "_content/MyRazorApp",
   "Mode": "Default",
@@ -167,25 +167,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\site.js"
-    },
-    {
-      "Identity": "C:\\Users\\test\\Desktop\\temp\\Ceng382_25-26_202211406\\MyRazorApp\\wwwroot\\JSON\\UsersJSON.json",
-      "SourceId": "MyRazorApp",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\test\\Desktop\\temp\\Ceng382_25-26_202211406\\MyRazorApp\\wwwroot\\",
-      "BasePath": "_content/MyRazorApp",
-      "RelativePath": "JSON/UsersJSON.json",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\JSON\\UsersJSON.json"
     },
     {
       "Identity": "C:\\Users\\test\\Desktop\\temp\\Ceng382_25-26_202211406\\MyRazorApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
