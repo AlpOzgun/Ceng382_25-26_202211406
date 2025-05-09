@@ -8,13 +8,9 @@
     <button type="submit" class="btn btn-danger">Logout</button>
     </form>
     
-    <p style="font: 15px;font-family: Arial, Helvetica, sans-serif;font-weight:bold;">Session Info :</p>
-    <p style="font: 15px;font-family: Arial, Helvetica, sans-serif;font-weight:bold;"> 
-        UserName : @HttpContext.Session.GetString("Username") | Session id : @HttpContext.Session.Id | Token : @HttpContext.Session.GetString("Token")</p>
 
-    <p style="font: 15px;font-family: Arial, Helvetica, sans-serif;font-weight:bold;">Cookie Info :</p>
     <p style="font: 15px;font-family: Arial, Helvetica, sans-serif;font-weight:bold;"> 
-        UserName : @Request.Cookies["Username"] | Session id : @Request.Cookies["SessionID"] | Token : @Request.Cookies["Token"]</p>
+        UserName : @Request.Cookies["Username"] | User Role : @Request.Cookies["UserRole"]</p>
 
 
     <div class="row">

@@ -93,19 +93,19 @@
             <label>Password:</label>
             <input type="password" name="Password" required />
 
-            <input type="submit" value="Login" asp-page-handler="Login"/>
+            <input type="submit" value="Login" asp-page-handler="Login" />
         </form>
 
         @if(IndexModel.wrong){
-            <p class="error">Username or password is wrong</p>
+            <p class="error">Username or password is incorrect.</p>
         }
 
         <div class="user-info">
-            <p><b>If no User exists, 3 users will be automatically generated:</b></p>
-            <li>Username | Password</li>
-            <li>admin | 1234</li>
-            <li>admin2 | 123456</li>
-            <li>admin3 | 123</li>
+            <p><b>Note:</b> If no Identity users exist in the system, these 3 users will be automatically created on page load:</p>
+            <li><b>Username</b> | <b>Password</b></li>
+            <li>admin | Admin@1234</li>
+            <li>admin2 | Admin@12345</li>
+            <li>admin3 | Admin@123</li>
         </div>
     </div>
 

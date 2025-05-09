@@ -1,49 +1,59 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MyRazorApp.Data;
+using MyRazorApp.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add Identity services and configure the options
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => 
+{
+    /*options.SignIn.RequireConfirmedAccount = false;
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequiredLength = 8;*/
+})
+.AddEntityFrameworkStores<SchoolDbContext>() // Ensure this uses the correct DbContext (SchoolDbContext)
+.AddDefaultTokenProviders(); // Default token providers for password reset, etc.
+
+// Add Razor Pages services to the container
 builder.Services.AddRazorPages();
 
+// Add session services with a 30-minute idle timeout
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.IdleTimeout = TimeSpan.FromMinutes(30); 
     options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
+    options.Cookie.IsEssential = true; // Essential for GDPR compliance
 });
 
-CookieOptions options = new CookieOptions
-{
-    Expires = DateTime.UtcNow.AddMinutes(30),
-    HttpOnly = true, 
-    Secure = true, 
-    SameSite = SameSiteMode.Strict 
-};
-
+// Add DbContext for SchoolDbContext with SQL Server connection string
 builder.Services.AddDbContext<SchoolDbContext>(options =>
- options.UseSqlServer(builder.Configuration.GetConnectionString("SchoolDbConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SchoolDbConnection"))); // Ensure correct connection string in appsettings.json
 
 var app = builder.Build();
 
-
-
-
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline (middleware setup)
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    // In production, you might want to add security-related middleware like HSTS (HTTP Strict Transport Security)
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-app.UseSession();
-app.UseRouting();
+app.UseHttpsRedirection(); // Redirect HTTP to HTTPS
+app.UseStaticFiles(); // Serve static files like CSS, JS, etc.
+app.UseSession(); // Enable session middleware
+app.UseRouting(); // Enable routing middleware
 
-app.UseAuthorization();
+// Add authentication and authorization middleware
+app.UseAuthentication(); 
+app.UseAuthorization(); 
+
+// Map Razor Pages to handle page requests
 
 app.MapRazorPages();
 
-app.Run();
+app.Run(); // Run the application
