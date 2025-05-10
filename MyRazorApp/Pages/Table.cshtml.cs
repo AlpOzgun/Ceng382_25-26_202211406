@@ -38,7 +38,7 @@ namespace MyApp.Namespace
 
             
             if(!await _context.Classes.AnyAsync(c => c.IsActive)){
-                for(int i=0;i<80;i++){
+                for(int i=0;i<100;i++){
                     _context.Classes.Add(new Class{
                         Name=$"{i+1}th class",
                         PersonCount = i+1,
